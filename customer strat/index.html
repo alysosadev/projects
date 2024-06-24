@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js" integrity="sha512-XmZS54be9JGMZjf+zk61JZaLZyjTRgs41JLSmx5QlIP5F+sSGIyzD2eJyxD4K6kGGr7AsVhaitzZ2WTfzpsQzg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Bootstrap Table-->
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.css">
+
+    <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" integrity="sha512-Oy+sz5W86PK0ZIkawrG0iv7XwWhYecM3exvUtMKNJMekGFJtVAhibhRPTpmyTj8+lJCkmWfnpxKgT2OopquBHA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.0.96/css/materialdesignicons.min.css" integrity="sha512-fXnjLwoVZ01NUqS/7G5kAnhXNXat6v7e3M9PhoMHOTARUMCaf5qNO84r5x9AFf5HDzm3rEZD8sb/n6dZ19SzFA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/styling.css" />
+
+    <title>Customer Stratification</title>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row" id="top-nav">
+            <div class="col" id="filter-dropdown">
+                
+                <select class="region-select" id="regionDropdown" name="region" required>
+                    <option value="0">Select a region</option>
+                </select>
+                
+            </div>
+
+            <div class="col" id="logo">
+            </div>
+
+        </div>
+        
+        <div class="row">
+
+            <div class="col" id="main">
+                <div class="container-fluid" id="customer-strat-diagram">
+                    <div class="query-box query-box-left" id="opportunistic">
+
+                        <div class="DA subquery" data-id="DA">
+                            <span>(D,A) quadrant</span>
+                            <span id="DA-count"></span>
+                        </div>
+                        <div class="CA subquery" data-id="CA">
+                            <span>(C,A) quadrant</span>
+                            <span id="CA-count"></span>
+                        </div>
+
+                        <div class="DB subquery" data-id="DB">
+                            <span>(D,B) quadrant</span>
+                            <span id="DB-count"></span>
+                        </div>
+                        <div class="CB subquery" data-id="CB">
+                            <span>(C,B) quadrant</span>
+                            <span id="CB-count"></span>
+                        </div>
+                        <div class="total-opportunistic subquery" data-id="opportunistic">
+                            <span>Total opportunistic customers</span>
+                            <span id="opportunistic-count"></span>
+                        </div>
+                    </div>
+                    <div class="query-box query-box-right" id="core">
+                        <div class="BA subquery" data-id="BA">
+                            <span>(B,A) quadrant</span>
+                            <span id="BA-count"></span>
+                        </div>
+                        <div class="AA subquery" data-id="AA">
+                            <span>(A,A) quadrant</span>
+                            <span id="AA-count"></span>
+                        </div>
+
+                        <div class="BB subquery" data-id="BB">
+                            <span>(B,B) quadrant</span>
+                            <span id="BB-count"></span>
+                        </div>
+                        <div class="AB subquery" data-id="AB">
+                            <span>(A,B) quadrant</span>
+                            <span id="AB-count"></span>
+                        </div>
+                        <div class="total-core subquery" data-id="core">
+                            <span>Total core customers</span>
+                            <span id="core-count"></span>
+                        </div>
+                    </div>
+                    <div class="query-box query-box-left" id="marginal">
+                        <div class="DC subquery" data-id="DC">
+                            <span>(D,C) quadrant</span>
+                            <span id="DC-count"></span>
+                        </div>
+                        <div class="CC subquery" data-id="CC">
+                            <span>(C,C) quadrant</span>
+                            <span id="CC-count"></span>
+                        </div>
+
+                        <div class="DD subquery" data-id="DD">
+                            <span>(D,D) quadrant</span>
+                            <span id="DD-count"></span>
+                        </div>
+                        <div class="CD subquery" data-id="CD">
+                            <span>(C,D) quadrant</span>
+                            <span id="CD-count"></span>
+                        </div>
+                        <div class="total-marginal subquery" data-id="marginal">
+                            <span>Total marginal customers</span>
+                            <span id="marginal-count"></span>
+                        </div>
+                    </div>
+                    <div class="query-box query-box-right" id="service-drain">
+                        <div class="BC subquery" data-id="BC">
+                            <span>(B,C) quadrant</span>
+                            <span id="BC-count"></span>
+                        </div>
+                        <div class="AC subquery" data-id="AC">
+                            <span>(A,C) quadrant</span>
+                            <span id="AC-count"></span>
+                        </div>
+
+                        <div class="BD subquery" data-id="BD">
+                            <span>(B,D) quadrant</span>
+                            <span id="BD-count"></span>
+                        </div>
+                        <div class="AD subquery" data-id="AD">
+                            <span>(A,D) quadrant</span>
+                            <span id="AD-count"></span>
+                        </div>
+                        <div class="total-service subquery" data-id="service_total">
+                            <span>Total service drain customers</span>
+                            <span id="service-count"></span>
+                        </div>
+                    </div>
+                    <div class="total-customers subquery" data-id="All">
+                        <span>Total customers</span>
+                        <span id="total-count"></span>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="col">
+                <div id="info-block">
+                    <span>more stuff idk</span>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div id="csseditor">
+                    <style scoped contenteditable="true" style="display:block;">
+                        .query-box {
+                            background-color: rgba(47, 18, 222, .1);
+                        }
+                    </style>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/customerstrat.js"></script>
+
+</body>
+</html>

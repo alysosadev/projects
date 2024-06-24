@@ -1,0 +1,293 @@
+body {
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 100%;
+    font-family: "NeueHaasGrotesk", Arial, sans-serif;
+    background-color: #4a494982
+}
+
+html {
+    height: 100%;
+    min-height: 100%;
+}
+#logo {
+    border-radius: 15px;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5);
+    margin: 0 0 .5em 0;
+    background-image: url("https://i.ibb.co/5nQQJpK/NEFCO-LOGO-TAGLINE-removebg-preview.png");
+    background-position: right;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 5em;
+    background-color: white;
+    padding: 0;
+}
+
+#top-nav {
+    margin-left: auto;
+}
+
+#pagetitle {
+    position: absolute;
+    top: 1em;
+    margin-left: 1em;
+    font-size: 1.5em;
+    font-style: italic;
+
+}
+
+.main_bubble {
+    border-radius: 15px;
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+.category-nav {
+    max-width: 12.5em;
+    height: fit-content;
+    padding: 2em 1em;
+    margin-right: 1em;
+    margin-left: 0.65em;
+    margin-bottom: .5em;
+    border-radius: 15px;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5);
+    border-color: white;
+    background-color: white;
+}
+
+.product-view {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    background-color: white;
+    border-radius: 15px;
+}
+
+#info-block {
+    box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.4);
+}
+
+#stuff {
+    box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.4);
+}
+
+.inventory_wrapper {
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    max-height: fit-content;
+    overflow-x: hidden;
+}
+
+.inventory_table {
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100% - 50px);
+    white-space: nowrap;
+    background-color: white;
+}
+
+/* table search bar formatting */
+.bootstrap-table.bootstrap5 .float-right {
+    margin-right: 5px;
+}
+
+/*
+    Date filter formatting
+*/
+.ticket_form .input-box .datepickerStart-search, .datepickerProduct-start {
+    width: 40%;
+}
+
+.ticket_form .input-box .datepickerEnd-search, .datepickerProduct-end {
+    width: 40%
+}
+
+.ticket_form .input-box label ~ .enddatelabel {
+    left: 42%;
+}
+
+
+.ticket_form .input-box input:focus ~ .enddatelabel,
+.ticket_form .input-box input:valid ~ .enddatelabel {
+    left: 42%;
+}
+
+/*
+    input formatting
+*/
+.ticket_form .input-box {
+    position: relative;
+}
+
+.ticket_form .input-box input, .ticket_form .input-box textarea {
+    width: 100%;
+    padding: 15px 0px 0px 0px;
+    font-size: 16px;
+    color: #AAA;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #AAA;
+    outline: none;
+    background: transparent;
+}
+
+select {
+    width: 100%;
+    padding: 15px 0px 0px 0px;
+    font-size: 16px;
+    color: #AAA;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #AAA;
+    outline: none;
+    background: white;
+}
+
+.ticket_form .input-box label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 15px 0;
+    font-size: 16px;
+    color: #AAA;
+    pointer-events: none;
+    transition: .5s;
+}
+
+
+.ticket_form .input-box input:focus ~ label,
+.ticket_form .input-box input:valid ~ label,
+.ticket_form .input-box input[readonly="true"] ~ label {
+    top: -20px;
+    left: 0px;
+    color: #194f90;
+    font-size: 12px;
+}
+
+.ticket_form .input-box textarea:focus ~ label,
+.ticket_form .input-box textarea:valid ~ label {
+    top: -20px;
+    left: 0px;
+    color: #194f90;
+    font-size: 12px;
+}
+
+.ticket_form .input-box select:focus ~ label,
+.ticket_form .input-box select:valid ~ label {
+    top: -20px;
+    left: 0px;
+    color: #194f90;
+    font-size: 12px;
+}
+
+/*
+    Button css
+*/
+.nefco-button, #createTicketBtn {
+    min-width: 10em;
+    max-width: 15em;
+    display: inline;
+    background: none;
+    color: black;
+    border-color: #ff7700;
+    vertical-align: middle;
+    position: relative;
+    z-index: 1;
+    -webkit-backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+}
+.button--edit {
+    min-width: 50px;
+    background: white;
+    color: #ff7700;
+    border-color: #ff7700;
+    vertical-align: middle;
+    position: relative;
+    border-radius: 5px;
+}
+.button--test {
+  overflow: hidden;
+  padding: 0;
+  -webkit-transition: border-color 0.3s, background-color 0.3s;
+  transition: border-color 0.3s, background-color 0.3s;
+  -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+  transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+  border-radius: 15px;
+}
+.button--test::after {
+  content: attr(data-text);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  color: black;
+  -webkit-transform: translate3d(0, 25%, 0);
+  transform: translate3d(0, 25%, 0);
+}
+.button--test > span {
+  display: block;
+}
+.button--test::after,
+.button--test > span {
+  padding: 5px 6px;
+  -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+  transition: transform 0.3s, opacity 0.3s;
+  -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+  transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
+.button--test:hover {
+  border: 2px solid #ff7700;
+}
+.button--test:hover::after {
+  opacity: 1;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.button--test:hover > span {
+  opacity: 0;
+  -webkit-transform: translate3d(0, -25%, 0);
+  transform: translate3d(0, -25%, 0);
+}
+
+.pill {
+    display: inline;
+    position: relative;
+    max-width: 15em;
+    width: 10em;
+    padding: 0.5em 1em;
+    margin: 0.25em;
+    border-radius: 1em;
+    background: none;
+    color: black;
+    border-color: #ff7700;
+    vertical-align: middle;
+    transition: background .3s ease-in-out;
+    z-index: 1;
+    -webkit-backface-visibility: hidden;
+}
+.pill:not(.pill--selected):hover {
+  background-color: rgba(255, 119, 0, 0.473);
+  cursor: pointer;
+}
+.pill--selected {
+    background-color: #ff7700;
+    color: rgb(255, 255, 255);
+}
+
+
+
+
+
+
+
+
+
+
+#csseditor {
+    background-color: rgba(0, .1, .2, 0.3);
+}

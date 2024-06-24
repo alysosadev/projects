@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js" integrity="sha512-XmZS54be9JGMZjf+zk61JZaLZyjTRgs41JLSmx5QlIP5F+sSGIyzD2eJyxD4K6kGGr7AsVhaitzZ2WTfzpsQzg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Bootstrap Table-->
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.css">
+
+    <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" integrity="sha512-Oy+sz5W86PK0ZIkawrG0iv7XwWhYecM3exvUtMKNJMekGFJtVAhibhRPTpmyTj8+lJCkmWfnpxKgT2OopquBHA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.0.96/css/materialdesignicons.min.css" integrity="sha512-fXnjLwoVZ01NUqS/7G5kAnhXNXat6v7e3M9PhoMHOTARUMCaf5qNO84r5x9AFf5HDzm3rEZD8sb/n6dZ19SzFA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/styling.css" />
+    <link rel="stylesheet" href="css/single_customer.css" />
+
+
+    <title>Customer Stratification Single Customer List</title>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row" id="top-nav">
+            <div class="col" id="filter-dropdown">
+                <span><a href="javascript:loadServer(0)"><i class="bi bi-arrow-left"></i> Back to Customer List</a></span>
+            </div>
+            <div class="col" id="logo">
+            </div>
+
+        </div>
+
+        <div class="container">
+            <div class="main-info">
+                <h1 id="cust_name"></h1>
+                <span>Eclipse ID: <span id="eclipse_id"></span></span>
+            </div>
+
+            <div id="customer-overall-rating" class="section">
+                <div class="section-header">Customer Overall Rating</div>
+
+                <div class="rank-breakdown">
+                    <div class="section-item overall">Lifetime Rank: <span class="rank" id="lifetime_rank"></span></div>
+                    <div class="section-item overall">Net Profit Rank: <span class="rank" id="net_rank"></span></div>
+                    <div class="section-item overall">Combined Ranking: <span class="rank" id="combined_rank"></span></div>
+                    <div class="section-item overall">Classification: <span class="rank" id="cust_class"></span></div>
+                </div>
+            </div>
+
+            <div id="customer-buying-power" class="section">
+                <div class="section-header">Customer Buying Power</div>
+                <div class="rank-breakdown">
+                    <div class="section-item">
+                        <h4>Customer Spend</h4>
+                        <span>Sales: <span id="customer_sales">$10,000</span></span>
+                        <span>Rank: <span class="rank" id="buying_rank"></span></span>
+                    </div>
+                    <div class="section-item">
+                        <h4>Items Accessed</h4>
+                        <span>Ind Skus: <span id="customer_skus">100</span></span>
+                        <span>Rank: <span class="rank" id="">B</span></span>
+                    </div>
+                    <div class="section-item">
+                        <h4>Product Line Penetration</h4>
+                        <span>Pct Access: <span id="customer_pctAccess">82%</span></span>
+                        <span>Rank: <span class="rank" id="">C</span></span>
+                    </div>
+                    <div class="section-item">
+                        <h4>Overall Rank</h4>
+                        <span class="rank" id="">B</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="customer-loyalty" class="section">
+                <div class="section-header">Customer Loyalty</div>
+                <div class="rank-breakdown">
+                    <div class="section-item">
+                        <h4>Revenue Growth</h4>
+                        <span>Pct Change: <span id="loyalty_pctChange">56%</span></span>
+                        <span>Rank: <span class="rank" id="loyalty_rank">C</span></span>
+                    </div>
+                    <div class="section-item">
+                        <h4>No. of Orders</h4>
+                        <span>Total Orders: <span id="loyalty_orders">872</span></span>
+                        <span>Rank: <span class="rank" id="">B</span></span>
+                    </div>
+                    <div class="section-item">
+                        <h4>Order Pattern & Consistency</h4>
+                        <span>Pct Consistency: <span id="loyalty_pctConsistency">92%</span></span>
+                        <span>Rank: <span class="rank" id="">A</span></span>
+                    </div>
+                    <div class="section-item">
+                        <h4>Overall Rank</h4>
+                        <span class="rank" id="">B</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="customer-profitability" class="section">
+                <div class="section-header">Customer Profitability</div>
+                <div class="rank-breakdown">
+                    <div class="section-item">
+                        <h4>Gross Profit Dollar</h4>
+                        <span>Total: <span id="">$1.4M</span></span>
+                        <span>Rank: <span class="rank" id="">B</span></span>
+                    </div>
+                    <div class="section-item">
+                        <h4>Gross Profit %</h4>
+                        <span>GP%: <span id="">48%</span></span>
+                        <span>Rank: <span class="rank" id="">B</span></span>
+                    </div>
+                    <div class="section-item">
+                        <h4>Gross Profit Growth</h4>
+                        <span>Pct Change: <span id="">12%</span></span>
+                        <span>Rank: <span class="rank" id="">C</span></span>
+                    </div>
+                    <div class="section-item">
+                        <h4>Overall Rank</h4>
+                        <span class="rank" id="">B</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="customer-cts" class="section">
+                <div class="section-header">Customer Cost to Serve</div>
+                <div class="rank-breakdown">
+                    <div class="section-item">
+                        <h4>Average Order Size</h4>
+                        <span>Sales: <span id="">$4,052</span></span>
+                        <span>Rank: <span class="rank" id="">C</span></span>
+                    </div>
+                    <div class="section-item">
+                        <h4>Average Lines per Order</h4>
+                        <span>Total Lines: <span id="">239</span></span>
+                        <span>Rank: <span class="rank" id="">A</span></span>
+                    </div>
+                    <div class="section-item">
+                        <h4>Customer DSO</h4>
+                        <span>DSO: <span id="">34%</span></span>
+                        <span>Rank: <span class="rank" id="">B</span></span>
+                    </div>
+                    <div class="section-item">
+                        <h4>Overall Rank</h4>
+                        <span class="rank" id="">B</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div id="csseditor">
+                        <style scoped contenteditable="true" style="display:block;">
+                            .query-box {
+                                background-color: rgba(47, 18, 222, .1);
+                            }
+                        </style>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        var $table = $('#table');
+        var eclipseID = document.getElementById('eclipse_id');
+
+        var distributionList = [{ EclipseID: '123456', Name: 'ACME', FinalRank: 'BC', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'B', LoyaltyRank: 'C', ProfitRank: 'B' }, { EclipseID: '724358', Name: 'XYZ Corporation', FinalRank: 'BB', LifetimeRank: 'C', NetRank: 'B', BuyingRank: 'B', LoyaltyRank: 'C', ProfitRank: 'B' }, { EclipseID: '128647', Name: 'ACME Inc.', FinalRank: 'AC', LifetimeRank: 'A', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'B', ProfitRank: 'A' },
+        { EclipseID: '986532', Name: 'Global Industries', FinalRank: 'BB', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'A', LoyaltyRank: 'B', ProfitRank: 'C' }, { EclipseID: '543219', Name: 'Smith & Co.', FinalRank: 'DA', LifetimeRank: 'C', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'B', ProfitRank: 'B' }, { EclipseID: '777777', Name: 'Jones Enterprises', FinalRank: 'BD', LifetimeRank: 'B', NetRank: 'A', BuyingRank: 'B', LoyaltyRank: 'C', ProfitRank: 'C' },
+        { EclipseID: '111111', Name: 'GlobeTech', FinalRank: 'BC', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'A', LoyaltyRank: 'B', ProfitRank: 'A' }, { EclipseID: '222222', Name: 'Green Solutions', FinalRank: 'CA', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'B', LoyaltyRank: 'A', ProfitRank: 'C' }, { EclipseID: '333333', Name: 'Acme Ltd.', FinalRank: 'AB', LifetimeRank: 'C', NetRank: 'B', BuyingRank: 'A', LoyaltyRank: 'C', ProfitRank: 'B' },
+        { EclipseID: '444444', Name: 'Johnson & Associates', FinalRank: 'CC', LifetimeRank: 'A', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'B', ProfitRank: 'A' }, { EclipseID: '555555', Name: 'Harmony Co.', FinalRank: 'AD', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'C', LoyaltyRank: 'B', ProfitRank: 'B' }]
+
+        var northeastList = [{ EclipseID: '452613', Name: 'NebulaCore Technologies', FinalRank: 'CB', LifetimeRank: 'C', NetRank: 'C', BuyingRank: 'B', LoyaltyRank: 'B', ProfitRank: 'B' }, { EclipseID: '369854', Name: 'Vantage Innovations', FinalRank: 'AC', LifetimeRank: 'A', NetRank: 'A', BuyingRank: 'C', LoyaltyRank: 'A', ProfitRank: 'C' }, { EclipseID: '794105', Name: 'Galactic Dynamics', FinalRank: 'CD', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'C', LoyaltyRank: 'B', ProfitRank: 'A' },
+        { EclipseID: '258019', Name: 'QuantumSphere Corp', FinalRank: 'DA', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'A', LoyaltyRank: 'A', ProfitRank: 'B' }, { EclipseID: '810763', Name: 'Luminar Innovations', FinalRank: 'BD', LifetimeRank: 'C', NetRank: 'B', BuyingRank: 'B', LoyaltyRank: 'A', ProfitRank: 'C' }, { EclipseID: '947681', Name: 'NovaTech Systems', FinalRank: 'BA', LifetimeRank: 'A', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'C', ProfitRank: 'A' },
+        { EclipseID: '536907', Name: 'Skyward Enterprises', FinalRank: 'DB', LifetimeRank: 'C', NetRank: 'A', BuyingRank: 'B', LoyaltyRank: 'C', ProfitRank: 'B' }, { EclipseID: '186025', Name: 'Aurora Technologies', FinalRank: 'CA', LifetimeRank: 'A', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'A', ProfitRank: 'C' }, { EclipseID: '467921', Name: 'TerraNova Innovations', FinalRank: 'BA', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'B', LoyaltyRank: 'B', ProfitRank: 'C' },
+        { EclipseID: '621543', Name: 'SolarCore Technologies', FinalRank: 'DC', LifetimeRank: 'C', NetRank: 'A', BuyingRank: 'A', LoyaltyRank: 'C', ProfitRank: 'B' }]
+
+
+        var midwestList = [{ EclipseID: '876543', Name: 'XYZ Corp', FinalRank: 'CA', LifetimeRank: 'B', NetRank: 'B', BuyingRank: 'B', LoyaltyRank: 'C', ProfitRank: 'A' }, { EclipseID: '234567', Name: 'Globex', FinalRank: 'AB', LifetimeRank: 'C', NetRank: 'A', BuyingRank: 'C', LoyaltyRank: 'B', ProfitRank: 'C' }, { EclipseID: '345678', Name: 'Initech', FinalRank: 'BB', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'A', LoyaltyRank: 'A', ProfitRank: 'B' },
+        { EclipseID: '567890', Name: 'Stark Industries', FinalRank: 'BD', LifetimeRank: 'A', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'C', ProfitRank: 'B' }, { EclipseID: '456789', Name: 'Wayne Enterprises', FinalRank: 'AC', LifetimeRank: 'C', NetRank: 'A', BuyingRank: 'B', LoyaltyRank: 'B', ProfitRank: 'C' }, { EclipseID: '789012', Name: 'Umbrella Corp', FinalRank: 'AB', LifetimeRank: 'A', NetRank: 'C', BuyingRank: 'B', LoyaltyRank: 'B', ProfitRank: 'A' },
+        { EclipseID: '890123', Name: 'Vandelay Industries', FinalRank: 'BA', LifetimeRank: 'C', NetRank: 'B', BuyingRank: 'A', LoyaltyRank: 'C', ProfitRank: 'C' }, { EclipseID: '901234', Name: 'Dunder Mifflin', FinalRank: 'CB', LifetimeRank: 'B', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'A', ProfitRank: 'B' }, { EclipseID: '012345', Name: 'Oscorp', FinalRank: 'BC', LifetimeRank: 'A', NetRank: 'C', BuyingRank: 'B', LoyaltyRank: 'C', ProfitRank: 'B' },
+        { EclipseID: '123456', Name: 'Weyland-Yutani', FinalRank: 'DA', LifetimeRank: 'B', NetRank: 'A', BuyingRank: 'B', LoyaltyRank: 'B', ProfitRank: 'C' }]
+
+        var southList = [{ EclipseID: '906752', Name: 'QuantumTech Corp', FinalRank: 'BD', LifetimeRank: 'C', NetRank: 'A', BuyingRank: 'B', LoyaltyRank: 'B', ProfitRank: 'C' }, { EclipseID: '258019', Name: 'CyberSphere Inc', FinalRank: 'CA', LifetimeRank: 'B', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'C', ProfitRank: 'B' }, { EclipseID: '947681', Name: 'NovaTech Enterprises', FinalRank: 'CC', LifetimeRank: 'A', NetRank: 'C', BuyingRank: 'A', LoyaltyRank: 'A', ProfitRank: 'A' },
+        { EclipseID: '536907', Name: 'Skyward Industries', FinalRank: 'AD', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'C', LoyaltyRank: 'C', ProfitRank: 'C' }, { EclipseID: '369854', Name: 'GigaForge Systems', FinalRank: 'DB', LifetimeRank: 'C', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'B', ProfitRank: 'B' }, { EclipseID: '794105', Name: 'Aurora Dynamics', FinalRank: 'BB', LifetimeRank: 'A', NetRank: 'C', BuyingRank: 'B', LoyaltyRank: 'B', ProfitRank: 'C' },
+        { EclipseID: '810763', Name: 'NebulaTech Corp', FinalRank: 'DD', LifetimeRank: 'C', NetRank: 'B', BuyingRank: 'B', LoyaltyRank: 'C', ProfitRank: 'A' }, { EclipseID: '186025', Name: 'Starlight Innovations', FinalRank: 'BA', LifetimeRank: 'B', NetRank: 'A', BuyingRank: 'C', LoyaltyRank: 'A', ProfitRank: 'C' }, { EclipseID: '467921', Name: 'SolarCore Systems', FinalRank: 'AB', LifetimeRank: 'C', NetRank: 'C', BuyingRank: 'A', LoyaltyRank: 'B', ProfitRank: 'B' },
+        { EclipseID: '621543', Name: 'TerraNova Technologies', FinalRank: 'CA', LifetimeRank: 'A', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'C', ProfitRank: 'A' }]
+
+        var fullList = [...distributionList, ...northeastList, ...midwestList, ...southList];
+        const customer_strat = {
+            Marginal: ['DC', 'CC', 'DD', 'CD'],
+            Core: ['BA', 'BB', 'AA', 'AB'],
+            Opportunistic: ['DA', 'CA', 'DB', 'CB'],
+            Service: ['BC', 'AC', 'BD', 'AD']
+        };
+
+        var cust_name = document.getElementById('cust_name')
+        var lifetime_rank = document.getElementById('lifetime_rank');
+        var net_rank = document.getElementById('net_rank');
+        var combined_rank = document.getElementById('combined_rank');
+        var buying_rank = document.getElementById('buying_rank');
+        var cust_class = document.getElementById('cust_class');
+
+        function loadServer(type) {
+            if (type == 0) {
+                window.location = 'file:///C:/Users/aly.sosa/Desktop/customer%20strat/customers.html';
+            } else if (type == 1) {
+                window.location = 'http://192.1.0.105/v2/customerstrat/customers.html'
+            }
+        }
+
+        $(function () {
+            $table.bootstrapTable()
+
+            var filters = window.location.search.replace(/^\?/, "").split('&');
+            var params = {};
+            for (var i = 0; i < filters.length; i++) {
+                var filter = filters[i].split('=');
+                params[filter[0]] = filter[1];
+            }
+
+            var customer = fullList.filter(cust => cust.EclipseID == params.id)[0];
+            for (const field in customer_strat) {
+                if (customer_strat[field].includes(customer.FinalRank)) {
+                    cust_class.innerHTML = field;
+                    break;
+                }
+            }
+            
+            //console.log(customer.Name)
+
+            cust_name.innerHTML = customer.Name;
+            eclipseID.innerHTML = params.id;
+            lifetime_rank.innerHTML = customer.LifetimeRank;
+            net_rank.innerHTML = customer.NetRank;
+            combined_rank.innerHTML = customer.FinalRank;
+            buying_rank.innerHTML = customer.BuyingRank;
+        })
+    </script>
+</body>
+</html>

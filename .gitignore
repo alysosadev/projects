@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/customer strat/.vs
+/errorentry new server/.vs
+/errorentry new server/node_modules
+/errorentry new server/public/.vs
+/inventory/.vs
+/inventory/node_modules
+/inventory/public/.vs
+/testhtml/.vs

@@ -1,0 +1,30 @@
+{
+  "name": "inventory",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index_inventory.js",
+    "dev": "nodemon index_inventory.js"
+  },
+  "author": "Aly Sosa",
+  "license": "ISC",
+  "dependencies": {
+    "benchmark": "^2.1.4",
+    "body-parser": "^1.19.2",
+    "browserify": "^17.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "js-datepicker": "^5.18.0",
+    "ldapjs": "^2.3.2",
+    "moment": "^2.29.3",
+    "mssql": "^8.0.2",
+    "node-openvpn": "^0.1.1",
+    "nvm": "^0.0.4",
+    "react-bootstrap-typeahead": "^6.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

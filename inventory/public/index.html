@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js" integrity="sha512-XmZS54be9JGMZjf+zk61JZaLZyjTRgs41JLSmx5QlIP5F+sSGIyzD2eJyxD4K6kGGr7AsVhaitzZ2WTfzpsQzg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Bootstrap Table-->
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.css">
+    <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" integrity="sha512-Oy+sz5W86PK0ZIkawrG0iv7XwWhYecM3exvUtMKNJMekGFJtVAhibhRPTpmyTj8+lJCkmWfnpxKgT2OopquBHA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Autocomplete -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap-typeahead/6.3.2/react-bootstrap-typeahead.js" integrity="sha512-tnhIA6T1zOyn29bmONQHdSRefH7UwcARjIxynIhTgvkrtsMPwbx/ocCL3OllSJ6qQbuFs2D2d40spI8oQLnQ4w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    <link rel="stylesheet" href="https://unpkg.com/react-bootstrap-typeahead/css/Typeahead.css" />
+    <link rel="stylesheet" href="https://unpkg.com/react-bootstrap-typeahead/css/Typeahead.bs5.css" />
+
+
+    <link rel="stylesheet" href="css/styling.css" />
+
+    <title>Inventory Adjustments</title>
+</head>
+
+<body>
+
+    <div class="container-fluid main_bubble">
+        <div class="row" id="top-nav">
+            <div class="col" id="logo">
+                <span id="pagetitle"> Inventory Adjustments Dashboard | Jan 2024 </span>
+            </div>
+        </div>
+
+        <div class="row g-3">
+
+            <div class="col category-nav">
+                <!-- sidebar -->
+                <div class="nav" aria-orientation="vertical">
+                    <button class="pill" type="button" value="2" name="Adjustment Table">All Adjustments</button>
+                    <button class="nefco-button button--test" id="ticketReview" data-bs-target="#adjustmentSearchModal" data-bs-toggle="modal" data-text="Search...">
+                        <span>Adjustment Search</span>
+                    </button>
+
+                    <hr />
+
+                    <button class="pill" type="button" value="3" name="Valid Adjustments">Reviewed Adjustments</button>
+                    <button class="nefco-button button--test" id="reviewedAdjustment" data-bs-target="#reviewedAdjustmentSearchModal" data-bs-toggle="modal" data-text="Search Reviewed Adjustment...">
+                        <span>Reviewed Adjustment Search</span>
+                    </button>
+
+                    <button class="pill" type="button" value="4" name="Manager Reviewed">Manager Reviewed Adjustments</button>
+
+                </div>
+            </div>
+
+            <!-- edit inv modal-->
+            <div class="modal fade" id="editInventoryProductModal" tabindex="-1" data-bs-backdrop="staticBackdrop" role="dialog" aria-labelledby="inventoryProductLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg model-scrollable" role="document" style="width: 600px">
+                    <div class="modal-content">
+                        <div class="modal-header text-center">
+                            <h4 class="modal-title w-100 font-weight-bold">Inventory Product Form</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mx-3">
+
+                            <!-- inventory prod form -->
+                            <div class="container-fluid ticket_form mb-5" style="width: 500px">
+
+                                <form action="/api/tickets" method="post" id="inventoryProductForm" novalidate>
+                                    <!-- primary code -->
+                                    <div class="row g-3">
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <select class="primarycode-edit" name="primarycode" required>
+                                                    <option value="0">Select an code</option>
+                                                </select>
+                                                <label>Primary Code</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <select class="employee-select" id="submittedBy-edit" name="submittedBy" required>
+                                                    <option value="0">Select an employee</option>
+                                                </select>
+                                                <label>Submitted By</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- notes -->
+                                    <div class="row align-items-center g-3">
+                                        <div class="col-12 mb-3">
+                                            <div class="input-box">
+                                                <textarea rows="4" id="notes-edit" name="entrynotes" required></textarea>
+                                                <label>Internal Notes</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center g-3">
+                                        <!-- is delete select -->
+                                        <div class="col-sm-6 mb-3">
+                                            <div class="input-box">
+                                                <select class="isDelete-select" id="isDeleteSelect-edit" name="isDelete" required>
+                                                    <option value="N">No</option>
+                                                    <option value="Y">Yes</option>
+                                                </select>
+                                                <label>Is Delete</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <hr />
+
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" id="submitAdjustment" class="btn btn-outline-primary">Submit Adjustment</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- edit reviewed inv modal-->
+            <div class="modal fade" id="reviewedProductModal" tabindex="-1" data-bs-backdrop="staticBackdrop" role="dialog" aria-labelledby="inventoryProductLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg model-scrollable" role="document" style="width: 600px">
+                    <div class="modal-content">
+                        <div class="modal-header text-center">
+                            <h4 class="modal-title w-100 font-weight-bold">Reviewed Product Form</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mx-3">
+
+                            <!-- inventory prod form -->
+                            <div class="container-fluid ticket_form mb-5" style="width: 500px">
+
+                                <form action="/api/tickets" method="post" id="reviewedProductForm" novalidate>
+                                    <!-- primary code -->
+                                    <div class="row g-3">
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <select class="primarycode-edit" name="primarycode" required>
+                                                    <option value="0">Select an code</option>
+                                                </select>
+                                                <label>Primary Code</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <select class="employee-select" id="submittedByReviewed-edit" name="submittedBy" required>
+                                                    <option value="0">Select an Employee</option>
+                                                </select>
+                                                <label>Submitted By</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- notes -->
+                                    <div class="row align-items-center g-3">
+                                        <div class="col-12 mb-3">
+                                            <div class="input-box">
+                                                <textarea rows="4" id="reviewed-notes-edit" name="entrynotes" required></textarea>
+                                                <label>Internal Notes</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- previously updated by -->
+                                    <div class="row align-items-center g-3">
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <div class="input-box">
+                                                    <input type="text" id="updatedBy-edit" name="updatedBy" required />
+                                                    <label>Updated By</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- previous notes -->
+                                    <div class="row align-items-center g-3">
+                                        <div class="col-12 mb-3">
+                                            <div class="input-box">
+                                                <textarea rows="4" id="previousReviewed-notes-edit" name="previousnotes"></textarea>
+                                                <label>Previous Notes</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center g-3">
+                                        <!-- is delete select -->
+                                        <div class="col-sm-6 mb-3">
+                                            <div class="input-box">
+                                                <select class="isDelete-select" id="isDeleteSelectReview-edit" name="isDelete" required>
+                                                    <option value="N">No</option>
+                                                    <option value="Y">Yes</option>
+                                                </select>
+                                                <label>Is Delete</label>
+                                            </div>
+                                        </div>
+                                        <!-- is delete select -->
+                                        <div class="col-sm-6 mb-3">
+                                            <div class="input-box">
+                                                <select class="managerreview-select" id="managerreviewed-edit" name="managerreview" required>
+                                                    <option value="N">No</option>
+                                                    <option value="Y">Yes</option>
+                                                </select>
+                                                <label>Manager Reviewed</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <hr />
+
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" id="submitAdjustment" class="btn btn-outline-primary">Submit Adjustment</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Adjustment Search Modal-->
+            <div class="modal fade" id="adjustmentSearchModal" tabindex="-1" data-bs-backdrop="staticBackdrop" role="dialog" aria-labelledby="ticketModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg model-scrollable" role="document" style="width: 700px">
+                    <div class="modal-content">
+                        <div class="modal-header text-center">
+                            <h4 class="modal-title w-100 font-weight-bold">Adjustment Form</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mx-3">
+
+                            <!-- ticket input form -->
+                            <div class="container-fluid ticket_form mb-5" style="width: 650px">
+
+                                <form action="/api/tickets" method="post" id="adjustmentForm" novalidate>
+                                    <!-- date and customer -->
+                                    <div class="row align-items-center justify-content-around g-3">
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" class="datepickerStart-search" name="startDate" required />
+                                                <label>Start Date</label>
+
+                                                <input type="text" class="datepickerEnd-search" name="endDate" required />
+                                                <label class="enddatelabel">End Date</label>
+                                            </div>
+                                            <div class="input-box">
+                                                <input type="text" id="writer-search" name="writer" required />
+                                                <label>Writer</label>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" id="buyLine-search" name="buyline" required />
+                                                <label>Buy Line</label>
+                                            </div>
+                                            <div class="input-box">
+                                                <input type="text" id="priceLine-search" name="priceline" required />
+                                                <label>Price Line</label>
+                                            </div>
+                                            <div class="input-box">
+                                                <input type="text" id="extendedCogs-search" name="extendedcogs" required />
+                                                <label>Extended Cogs</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- manifest# and order# and gen -->
+                                    <div class="row justify-content-center g-3">
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" id="productID-search" name="productid" required />
+                                                <label>Product ID</label>
+                                            </div>
+                                            <div class="input-box">
+                                                <input type="text" id="ledgerID-search" name="ledgerid" required />
+                                                <label>Ledger ID</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" id="glprodType-search" name="glproducttype" required />
+                                                <label>GL Product Type</label>
+                                            </div>
+                                            <div class="input-box">
+                                                <input type="text" id="branchID-search" name="branchid" required />
+                                                <label>Branch ID</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row align-items-center g-3">
+                                        <div class="col-12 mb-3">
+                                            <div class="input-box">
+                                                <textarea rows="4" id="notes-search" name="internalnotes" required></textarea>
+                                                <label>Adjustment Comments</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center g-3">
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" id="prodStatus-search" name="prodstatus" required />
+                                                <label>Prod Status</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" id="locationType-search" name="locationtype" required />
+                                                <label>Location Type</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center g-3">
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" id="cogsGreater-search" name="cogsgreater" required />
+                                                <label>Extended COGS Greater than</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" id="cogsLesser-search" name="cogslesser" required />
+                                                <label>Extended COGS Less than</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center g-3">
+                                        <!-- is delete select -->
+                                        <div class="col-sm-6 mb-3">
+                                            <div class="input-box">
+                                                <select class="isDelete-select" id="isDeleteSelect-search" name="isDelete" required>
+                                                    <option value="N">No</option>
+                                                    <option value="Y">Yes</option>
+                                                </select>
+                                                <label>Is Delete</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <hr />
+
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" id="submitAdjustmentsSearch" class="btn btn-outline-primary">Search Adjustments</button>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Reviewed Adjustment Search Modal-->
+            <div class="modal fade" id="reviewedAdjustmentSearchModal" tabindex="-1" data-bs-backdrop="staticBackdrop" role="dialog" aria-labelledby="ticketModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg model-scrollable" role="document" style="width: 700px">
+                    <div class="modal-content">
+                        <div class="modal-header text-center">
+                            <h4 class="modal-title w-100 font-weight-bold">Reviewed Adjustment Form</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mx-3">
+
+                            <!-- ticket input form -->
+                            <div class="container-fluid ticket_form mb-5" style="width: 650px">
+
+                                <form action="/api/tickets" method="post" id="reviewedAdjustmentForm" novalidate>
+                                    <!-- date and customer -->
+                                    <div class="row align-items-center justify-content-around g-3">
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" class="datepickerStart-search" name="startDate" required />
+                                                <label>Start Date</label>
+
+                                                <input type="text" class="datepickerEnd-search" name="endDate" required />
+                                                <label class="enddatelabel">End Date</label>
+                                            </div>
+                                            <div class="input-box">
+                                                <input type="text" id="writer-reviewSearch" name="writer" required />
+                                                <label>Writer</label>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" id="buyLine-reviewSearch" name="buyline" required />
+                                                <label>Buy Line</label>
+                                            </div>
+                                            <div class="input-box">
+                                                <input type="text" id="priceLine-reviewSearch" name="priceline" required />
+                                                <label>Price Line</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- manifest# and order# and gen -->
+                                    <div class="row justify-content-center g-3">
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" id="productID-reviewSearch" name="productid" required />
+                                                <label>Product ID</label>
+                                            </div>
+                                            <div class="input-box">
+                                                <input type="text" id="ledgerID-reviewSearch" name="ledgerid" required />
+                                                <label>Ledger ID</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" id="glprodType-reviewSearch" name="glproducttype" required />
+                                                <label>GL Product Type</label>
+                                            </div>
+                                            <div class="input-box">
+                                                <input type="text" id="branchID-reviewSearch" name="branchid" required />
+                                                <label>Branch ID</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center g-3">
+                                        <div class="col-12 mb-3">
+                                            <div class="input-box">
+                                                <textarea rows="4" id="notes-reviewSearch" name="internalnotes" required></textarea>
+                                                <label>Internal Notes</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center g-3">
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" id="prodStatus-reviewSearch" name="prodstatus" required />
+                                                <label>Prod Status</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" id="locationType-reviewSearch" name="locationtype" required />
+                                                <label>Location Type</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center g-3">
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" id="cogsGreater-reviewSearch" name="cogsgreater" required />
+                                                <label>Extended COGS Greater than</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6 mb-3">
+                                            <div class="input-box">
+                                                <input type="text" id="cogsLesser-reviewSearch" name="cogslesser" required />
+                                                <label>Extended COGS Less than</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center g-3">
+                                        <!-- is delete select -->
+                                        <div class="col-sm-6 mb-3">
+                                            <div class="input-box">
+                                                <select class="isDelete-select" id="isDeleteSelect-reviewSearch" name="isDelete" required>
+                                                    <option value="N">No</option>
+                                                    <option value="Y">Yes</option>
+                                                </select>
+                                                <label>Is Delete</label>
+                                            </div>
+                                        </div>
+                                        <!-- is delete select -->
+                                        <div class="col-sm-6 mb-3">
+                                            <div class="input-box">
+                                                <select class="managerreview-select" id="managerreviewed-reviewSearch" name="managerreview" required>
+                                                    <option value="N">No</option>
+                                                    <option value="Y">Yes</option>
+                                                </select>
+                                                <label>Manager Reviewed</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <hr />
+
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" id="submitReviewAdjustmentsSearch" class="btn btn-outline-primary">Search Adjustments</button>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col px-0">
+                <div class="product-view">
+                    <div class="inventory_wrapper">
+                        <table id="inventory_table"
+                               data-buttons-align="right"
+                               data-search="true"
+                               data-show-refresh="true"
+                               data-checkbox-header="false"
+                               data-click-to-select="true"
+                               data-id-field="PN"
+                               data-pagination="true"
+                               data-page-size="20"
+                               data-side-pagination="client">
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div id="info-block">
+                    <span>more stuff idk</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div id="csseditor">
+                    <style scoped contenteditable="true" style="display:block;">
+                        .query-box {
+                            background-color: rgba(47, 18, 222, .1);
+                        }
+                    </style>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/inventory.js"></script>
+
+</body>
+</html>

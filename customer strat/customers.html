@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js" integrity="sha512-XmZS54be9JGMZjf+zk61JZaLZyjTRgs41JLSmx5QlIP5F+sSGIyzD2eJyxD4K6kGGr7AsVhaitzZ2WTfzpsQzg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Bootstrap Table-->
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.css">
+
+    <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" integrity="sha512-Oy+sz5W86PK0ZIkawrG0iv7XwWhYecM3exvUtMKNJMekGFJtVAhibhRPTpmyTj8+lJCkmWfnpxKgT2OopquBHA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.0.96/css/materialdesignicons.min.css" integrity="sha512-fXnjLwoVZ01NUqS/7G5kAnhXNXat6v7e3M9PhoMHOTARUMCaf5qNO84r5x9AFf5HDzm3rEZD8sb/n6dZ19SzFA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/styling.css" />
+
+    <title>Customer Stratification Customer List</title>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row" id="top-nav">
+
+            <div class="row filter-dropdown">
+                <div class="col">
+                    <select id="regionDropdown" name="region" required>
+                        <option value="0">Select a region</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <select id="classDropdown" name="class_strat" required>
+                        <option value="0">Select a rank</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col" id="logo">
+            </div>
+
+        </div>
+
+        <div class="table-wrapper">
+            <div id="toolbar">
+                <span>Customer List <span id="currentlyShowing"></span></span>
+            </div>
+            <table class="data-table"
+                   id="table"
+                   data-toolbar="#toolbar"
+                   data-buttons-align="right"
+                   data-search="true"
+                   data-checkbox-header="false"
+                   data-id-field="BillTo"
+                   data-pagination="true"
+                   data-page-list="[15, 25, 50, all]"
+                   data-page-size="25"
+                   data-url= 'http://192.1.0.105:8090/api/strat/customers'
+                   data-side-pagination="client"
+                   data-response-handler="responseHandler">
+                <tbody>
+                    <tr>
+                        <td>123456</td>
+                        <td>ACME</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div id="csseditor">
+                    <style scoped contenteditable="true" style="display:block;">
+                        .query-box {
+                            background-color: rgba(47, 18, 222, .1);
+                        }
+                    </style>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        var $table = $('#table');
+        var currentlyShowing = document.getElementById('currentlyShowing');
+
+        var distributionList = [{ EclipseID: '123456', Name: 'ACME', FinalRank: 'BC', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'B', LoyaltyRank: 'C', ProfitRank: 'B' }, { EclipseID: '724358', Name: 'XYZ Corporation', FinalRank: 'BB', LifetimeRank: 'C', NetRank: 'B', BuyingRank: 'B', LoyaltyRank: 'C', ProfitRank: 'B' }, { EclipseID: '128647', Name: 'ACME Inc.', FinalRank: 'AC', LifetimeRank: 'A', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'B', ProfitRank: 'A' },
+            { EclipseID: '986532', Name: 'Global Industries', FinalRank: 'BB', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'A', LoyaltyRank: 'B', ProfitRank: 'C' }, { EclipseID: '543219', Name: 'Smith & Co.', FinalRank: 'DA', LifetimeRank: 'C', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'B', ProfitRank: 'B' }, { EclipseID: '777777', Name: 'Jones Enterprises', FinalRank: 'BD', LifetimeRank: 'B', NetRank: 'A', BuyingRank: 'B', LoyaltyRank: 'C', ProfitRank: 'C' },
+            { EclipseID: '111111', Name: 'GlobeTech', FinalRank: 'BC', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'A', LoyaltyRank: 'B', ProfitRank: 'A' }, { EclipseID: '222222', Name: 'Green Solutions', FinalRank: 'CA', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'B', LoyaltyRank: 'A', ProfitRank: 'C' }, { EclipseID: '333333', Name: 'Acme Ltd.', FinalRank: 'AB', LifetimeRank: 'C', NetRank: 'B', BuyingRank: 'A', LoyaltyRank: 'C', ProfitRank: 'B' },
+            { EclipseID: '444444', Name: 'Johnson & Associates', FinalRank: 'CC', LifetimeRank: 'A', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'B', ProfitRank: 'A' }, { EclipseID: '555555', Name: 'Harmony Co.', FinalRank: 'AD', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'C', LoyaltyRank: 'B', ProfitRank: 'B' }]
+
+        var northeastList = [{ EclipseID: '452613', Name: 'NebulaCore Technologies', FinalRank: 'CB', LifetimeRank: 'C', NetRank: 'C', BuyingRank: 'B', LoyaltyRank: 'B', ProfitRank: 'B' }, { EclipseID: '369854', Name: 'Vantage Innovations', FinalRank: 'AC', LifetimeRank: 'A', NetRank: 'A', BuyingRank: 'C', LoyaltyRank: 'A', ProfitRank: 'C' }, { EclipseID: '794105', Name: 'Galactic Dynamics', FinalRank: 'CD', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'C', LoyaltyRank: 'B', ProfitRank: 'A' },
+            { EclipseID: '258019', Name: 'QuantumSphere Corp', FinalRank: 'DA', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'A', LoyaltyRank: 'A', ProfitRank: 'B' }, { EclipseID: '810763', Name: 'Luminar Innovations', FinalRank: 'BD', LifetimeRank: 'C', NetRank: 'B', BuyingRank: 'B', LoyaltyRank: 'A', ProfitRank: 'C' }, { EclipseID: '947681', Name: 'NovaTech Systems', FinalRank: 'BA', LifetimeRank: 'A', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'C', ProfitRank: 'A' },
+            { EclipseID: '536907', Name: 'Skyward Enterprises', FinalRank: 'DB', LifetimeRank: 'C', NetRank: 'A', BuyingRank: 'B', LoyaltyRank: 'C', ProfitRank: 'B' }, { EclipseID: '186025', Name: 'Aurora Technologies', FinalRank: 'CA', LifetimeRank: 'A', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'A', ProfitRank: 'C' }, { EclipseID: '467921', Name: 'TerraNova Innovations', FinalRank: 'BA', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'B', LoyaltyRank: 'B', ProfitRank: 'C' },
+            { EclipseID: '621543', Name: 'SolarCore Technologies', FinalRank: 'DC', LifetimeRank: 'C', NetRank: 'A', BuyingRank: 'A', LoyaltyRank: 'C', ProfitRank: 'B' }]
+
+
+        var midwestList = [{ EclipseID: '876543', Name: 'XYZ Corp', FinalRank: 'CA', LifetimeRank: 'B', NetRank: 'B', BuyingRank: 'B', LoyaltyRank: 'C', ProfitRank: 'A' }, { EclipseID: '234567', Name: 'Globex', FinalRank: 'AB', LifetimeRank: 'C', NetRank: 'A', BuyingRank: 'C', LoyaltyRank: 'B', ProfitRank: 'C' }, { EclipseID: '345678', Name: 'Initech', FinalRank: 'BB', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'A', LoyaltyRank: 'A', ProfitRank: 'B' },
+            { EclipseID: '567890', Name: 'Stark Industries', FinalRank: 'BD', LifetimeRank: 'A', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'C', ProfitRank: 'B' }, { EclipseID: '456789', Name: 'Wayne Enterprises', FinalRank: 'AC', LifetimeRank: 'C', NetRank: 'A', BuyingRank: 'B', LoyaltyRank: 'B', ProfitRank: 'C' }, { EclipseID: '789012', Name: 'Umbrella Corp', FinalRank: 'AB', LifetimeRank: 'A', NetRank: 'C', BuyingRank: 'B', LoyaltyRank: 'B', ProfitRank: 'A' },
+            { EclipseID: '890123', Name: 'Vandelay Industries', FinalRank: 'BA', LifetimeRank: 'C', NetRank: 'B', BuyingRank: 'A', LoyaltyRank: 'C', ProfitRank: 'C' }, { EclipseID: '901234', Name: 'Dunder Mifflin', FinalRank: 'CB', LifetimeRank: 'B', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'A', ProfitRank: 'B' }, { EclipseID: '012345', Name: 'Oscorp', FinalRank: 'BC', LifetimeRank: 'A', NetRank: 'C', BuyingRank: 'B', LoyaltyRank: 'C', ProfitRank: 'B' },
+            { EclipseID: '123456', Name: 'Weyland-Yutani', FinalRank: 'DA', LifetimeRank: 'B', NetRank: 'A', BuyingRank: 'B', LoyaltyRank: 'B', ProfitRank: 'C' }]
+
+        var southList = [{ EclipseID: '906752', Name: 'QuantumTech Corp', FinalRank: 'BD', LifetimeRank: 'C', NetRank: 'A', BuyingRank: 'B', LoyaltyRank: 'B', ProfitRank: 'C' }, { EclipseID: '258019', Name: 'CyberSphere Inc', FinalRank: 'CA', LifetimeRank: 'B', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'C', ProfitRank: 'B' }, { EclipseID: '947681', Name: 'NovaTech Enterprises', FinalRank: 'CC', LifetimeRank: 'A', NetRank: 'C', BuyingRank: 'A', LoyaltyRank: 'A', ProfitRank: 'A' },
+            { EclipseID: '536907', Name: 'Skyward Industries', FinalRank: 'AD', LifetimeRank: 'B', NetRank: 'C', BuyingRank: 'C', LoyaltyRank: 'C', ProfitRank: 'C' }, { EclipseID: '369854', Name: 'GigaForge Systems', FinalRank: 'DB', LifetimeRank: 'C', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'B', ProfitRank: 'B' }, { EclipseID: '794105', Name: 'Aurora Dynamics', FinalRank: 'BB', LifetimeRank: 'A', NetRank: 'C', BuyingRank: 'B', LoyaltyRank: 'B', ProfitRank: 'C' },
+            { EclipseID: '810763', Name: 'NebulaTech Corp', FinalRank: 'DD', LifetimeRank: 'C', NetRank: 'B', BuyingRank: 'B', LoyaltyRank: 'C', ProfitRank: 'A' }, { EclipseID: '186025', Name: 'Starlight Innovations', FinalRank: 'BA', LifetimeRank: 'B', NetRank: 'A', BuyingRank: 'C', LoyaltyRank: 'A', ProfitRank: 'C' }, { EclipseID: '467921', Name: 'SolarCore Systems', FinalRank: 'AB', LifetimeRank: 'C', NetRank: 'C', BuyingRank: 'A', LoyaltyRank: 'B', ProfitRank: 'B' },
+            { EclipseID: '621543', Name: 'TerraNova Technologies', FinalRank: 'CA', LifetimeRank: 'A', NetRank: 'B', BuyingRank: 'C', LoyaltyRank: 'C', ProfitRank: 'A' }]
+
+        var fullList = [...distributionList, ...northeastList, ...midwestList, ...southList]
+
+
+        let regionSelect = document.getElementById('regionDropdown');
+        var regionList = [{ Name: 'Distribution', Region: 'Distribution' }, { Name: 'Northeast', Region: 'Northeast' }, { Name: 'South', Region: 'South' }, { Name: 'Midwest', Region: 'Midwest' }]
+
+        let classSelect = document.getElementById('classDropdown');
+        var rankList = [{ Name: 'AA', Rank: 'AA' }, { Name: 'BA', Rank: 'BA' }, { Name: 'AB', Rank: 'AB' }, { Name: 'BB', Rank: 'BB' },
+            { Name: 'DA', Rank: 'DA' }, { Name: 'CA', Rank: 'CA' }, { Name: 'DB', Rank: 'DB' }, { Name: 'CB', Rank: 'CB' },
+            { Name: 'DC', Rank: 'DC' }, { Name: 'CC', Rank: 'CC' }, { Name: 'DD', Rank: 'DD' }, { Name: 'CD', Rank: 'CD' },
+            { Name: 'BC', Rank: 'BC' }, { Name: 'AC', Rank: 'AC' }, { Name: 'BD', Rank: 'BD' }, { Name: 'AD', Rank: 'AD' }]
+
+        $.each(regionList, function (key, val) {
+            let regionOpt = new Option(val.Region, val.Region);
+
+            regionOpt.setAttribute('name', val.Name);
+            regionSelect.appendChild(regionOpt);
+            //console.log(empOpt);
+        });
+
+        $.each(rankList, function (key, val) {
+            let rankOpt = new Option(val.Rank, val.Rank);
+
+            rankOpt.setAttribute('name', val.Name);
+            classSelect.appendChild(rankOpt);
+            //console.log(empOpt);
+        });
+
+        $('#regionDropdown').on('change', function (e) {
+
+
+            //get customer list from api to load main dash
+
+            if (e.currentTarget.value == 'Distribution') {
+                initTable(distributionList);
+            }
+            else if (e.currentTarget.value == 'Northeast') {
+                initTable(northeastList);
+            }
+            else if (e.currentTarget.value == 'South') {
+                initTable(southList);
+            }
+            else if (e.currentTarget.value == 'Midwest') {
+                initTable(midwestList);
+            }
+
+            currentlyShowing.innerHTML = e.currentTarget.value
+
+            //console.log(e.currentTarget.value)
+        })
+
+        // edit + delete button formatter
+        function crudFormatter(value, row, index) {
+            //console.log(row)
+            return [
+                `<button type='submit' id='viewCust' class='button--view viewCustomer'>View</button>`
+            ].join('')
+        }
+
+
+        var crudEvents = {
+            'click #viewCust': async (event, value, row, index) => {
+                event.stopPropagation();
+
+                console.log(row);
+                openSingleCustomer(row.BillTo);
+
+            }
+        }
+
+
+        async function openSingleCustomer(eclipse_id) {
+            var link = 'file:///C:/Users/aly.sosa/Desktop/customer%20strat/single_customer.html?id=' + eclipse_id;
+            var prod_link = 'http://192.1.0.105/v2/customerstrat/single_customer.html?id=' + eclipse_id;
+
+            window.location = link;
+            console.log(eclipse_id)
+        }
+
+        // response handler for getting from server
+        function responseHandler(res) {
+            $.each(res.rows, function (i, row) {
+                row.state = $.inArray(row.BillTo) !== -1
+            })
+            return res
+        }
+
+        function initTable() {
+            $table.bootstrapTable('destroy').bootstrapTable({
+                columns: [
+                    [
+                        {
+                            title: 'Eclipse ID',
+                            field: 'BillTo',
+                            rowspan: 2,
+                            align: 'center',
+                            valign: 'middle'
+                        },
+                        {
+                            title: 'Customer Details',
+                            colspan: 2,
+                            align: 'center'
+                        }
+                    ],
+                    [
+                        {
+                            title: 'Name',
+                            field: 'BTName',
+                            align: 'center'
+                        },
+                        {
+                            title: 'Action',
+                            field: 'crudActions',
+                            align: 'center',
+                            clickToSelect: false,
+                            events: crudEvents,
+                            formatter: crudFormatter
+                        }
+                        /*
+                        {
+                            title: 'Final Rank',
+                            field: 'FinalRank',
+                            align: 'center',
+                            sortable: true
+                        },
+                        {
+                            title: 'Lifetime Rank',
+                            field: 'LifetimeRank',
+                            align: 'center'
+                        },
+
+                        {
+                            title: 'Net Profit Rank',
+                            field: 'NetRank',
+                            align: 'center',
+                            sortable: true
+                        },
+                        {
+                            title: 'Buying Power Rank',
+                            field: 'BuyingRank',
+                            align: 'center',
+                            sortable: true
+                        },
+                        {
+                            title: 'Loyalty Rank',
+                            field: 'LoyaltyRank',
+                            align: 'center',
+                            sortable: true
+                        },
+                        {
+                            title: 'Profit Rank',
+                            field: 'ProfitRank',
+                            align: 'center',
+                            sortable: true
+                        },
+                        */
+                        
+                    ]
+                ]
+                //data: customerlist
+            })
+
+
+            $table.on('all.bs.table', function (e, name, args) {
+                console.log(name, args)
+            })
+        }
+
+
+        const customer_strat = {
+            marginalCustomers: ['DC', 'CC', 'DD', 'CD'],
+            coreCustomers: ['BA', 'BB', 'AA', 'AB'],
+            opportunisticCustomers: ['DA', 'CA', 'DB', 'CB'],
+            serviceCustomers: ['BC', 'AC', 'BD', 'AD']
+        };
+
+        function filterByRank(customers, rank) {
+            return customers.filter(function (customer) {
+                return customer.FinalRank === rank;
+            });
+        }
+
+        $(function () {
+            //initTable(fullList);
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const filterParam = urlParams.get('filter');
+            const regionParam = urlParams.get('region');
+
+            let filteredList = fullList;
+
+            if (filterParam) {
+                switch (filterParam) {
+                    case 'core':
+                        filteredList = fullList.filter(customer => {
+                            return customer_strat['coreCustomers'].includes(customer.FinalRank);
+                        });
+                        break;
+                    case 'marginal':
+                        filteredList = fullList.filter(customer => {
+                            return customer_strat['marginalCustomers'].includes(customer.FinalRank);
+                        });
+                        break;
+                    case 'service':
+                        filteredList = fullList.filter(customer => {
+                            return customer_strat['serviceCustomers'].includes(customer.FinalRank);
+                        });
+                        break;
+                    case 'opportunistic':
+                        filteredList = fullList.filter(customer => {
+                            return customer_strat['opportunisticCustomers'].includes(customer.FinalRank);
+                        });
+                        break;
+                    default:
+                        filteredList = filterByRank(fullList, filterParam);
+                        break;
+                }
+            }
+
+
+
+            initTable();
+            //console.log(filteredList);
+        })
+    </script>
+
+</body>
+</html>
